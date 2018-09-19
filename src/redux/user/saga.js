@@ -3,6 +3,7 @@ import { push } from 'connected-react-router'
 import userActions from './actions';
 import { getToken,clearToken } from "../../helpers/utility";
 import { userApi } from "../../api";
+import jwtDecode from "jwt-decode";
 
 export function* logout() {
   yield takeEvery(userActions.LOGOUT, function*() {
@@ -25,6 +26,7 @@ export function* login() {
 export function* loginStore() {
   yield takeEvery(userActions.LOGIN_STORE, function*(user) {
     yield localStorage.setItem("token",user.token);
+    yield localStorage.setItem("token_info",jwtDecode(user.token))
   });
 }
 

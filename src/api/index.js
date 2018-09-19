@@ -2,9 +2,20 @@ import axios from "axios";
 import { notification } from 'antd';
 import config from "../settings"
 import userApi from "./user";
+import todoApi from "./todo";
+import { getToken } from "../helpers/utility";
 
 const init = ()=>{
     axios.defaults.baseURL = config.apiUrl;
+    axios.interceptors.request.use(config=>{
+        let token = getToken();
+
+        if(token){
+            config.headers['Authorization'] = `Bearer ${token}`
+        }
+
+        return config;
+    },error=>Promise.reject(error));
     axios.interceptors.response.use(data=>data,err=>{
         if (err.response.status === 504||err.response.status === 404) {
             notification["error"]({message:"网络问题，无法连接服务器"})
@@ -22,6 +33,6 @@ const api = {
     init
 };
 
-export { userApi };
+export { userApi,todoApi };
 
 export default api;

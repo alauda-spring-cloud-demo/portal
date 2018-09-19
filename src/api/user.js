@@ -1,13 +1,14 @@
 import axios from "axios";
+import config from "../settings"
 
 const login = async (loginName,password)=>{
   return await axios({
-      url:`${axios.defaults.baseURL}:8000/oauth/token`,
+      url:config.tokenUrl,
       // baseURL:axios.defaults.baseURL + ":8000",
       method:"POST",
       headers:{
           "Content-Type":"application/x-www-form-urlencoded",
-          "Authorization" :`Basic ${btoa("app_web_client:app_web_secret")}`
+          "Authorization" :`Basic ${btoa(config.client_id + ":" + config.client_secret)}`
       },
       data:`username=${loginName}&password=${password}&grant_type=password`
   })

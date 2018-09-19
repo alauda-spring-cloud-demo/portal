@@ -11,7 +11,7 @@ const sagaMiddleware = createSagaMiddleware();
 const routeMiddleware = routerMiddleware(history);
 
 const loggerMiddleware = (store)=>(next)=>(action)=>{
-	console.log(action.type);
+	console.log(action);
 	return next(action);
 }
 
