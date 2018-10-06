@@ -1,8 +1,10 @@
 import React,{Component} from "react";
 import { Route,Redirect,Switch } from "react-router-dom";
 import Login from "./containers/Login";
-import Dashboard from "./containers/Dashboard";
+import Projects from "./containers/Projects";
+import Kanban from "./containers/Kanban";
 import Portal from "./containers/Portal";
+import Registry from "./containers/Registry";
 import { connect } from "react-redux";
 import { ConnectedRouter } from 'connected-react-router';
 
@@ -32,7 +34,9 @@ class Routers extends Component{
 				<Switch>
 					<Route exact path="/" component={Portal} />
 					<Route exact path="/login" component={Login} />
-					<RestrictedRoute exact path="/dashboard" component={Dashboard} isLoggedIn={isLoggedIn} />
+					<Route exact path="/registry" component={Registry} />
+					<RestrictedRoute exact path="/projects" component={Projects} isLoggedIn={isLoggedIn} />
+					<RestrictedRoute exact path="/kanban" component={Kanban} isLoggedIn={isLoggedIn} />
 				</Switch>
 			</ConnectedRouter>
 		);

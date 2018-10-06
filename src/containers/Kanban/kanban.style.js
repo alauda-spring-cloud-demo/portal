@@ -29,7 +29,21 @@ const ContentWrapper = styled(Content)`
 		margin-bottom:10px;
 		display:flex;
 		justify-content:space-between;
+		.todo-user{
+			border-radius:50%;
+			width:30px;
+			height:30px;
+			background-color:#CCCCCC;
+			display:flex;
+			justify-content:center;
+			align-items:center;
+			font-weight:bold;
+			margin-right:10px;
+		}
 		.todo-opts{
+			display:flex;
+			justify-content:space-between;
+			align-items:center;
 			.anticon-bars>svg{
 				cursor:pointer;
 				&:hover{

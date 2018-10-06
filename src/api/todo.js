@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getToken } from "../helpers/utility";
 
-const getCards = async ()=>{
-  return await axios("/todo-service/cards")
+const getCards = async ({project})=>{
+  return await axios(`/todo-service/cards?project=${project}`)
 };
 
 const createTodo = async ({title,cardId})=>{
@@ -38,12 +38,12 @@ const deleteCard = async (id)=>{
   })
 };
 
-const createCard = async (title)=>{
+const createCard = async ({title,projectId})=>{
   return await axios({
   	url:"/todo-service/cards",
   	method:"POST",
   	data:{
-  		title
+  		title,projectId
   	}
   })
 };

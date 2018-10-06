@@ -1,48 +1,55 @@
 import React,{ Component } from "react";
-import { Layout,Dropdown,Menu } from "antd";
+import { Layout,Dropdown,Menu,Button } from "antd";
 import logo from "../../image/logo.png";
 import avata from "../../image/avata.jpg";
-import TopBarWrapper from "./topbar.style";
+import wrapper from "./topbar.style";
 import { connect } from "react-redux";
 import userActions from "../../redux/user/actions";
 import { push } from "connected-react-router";
+import KanbanBar from "./kanban-bar";
 
 const { Header } = Layout;
+
+const { TopBarWrapper } = wrapper;
 
 class TopBar extends Component{
 	render(){
 
-		const {token} = this.props.user;
-		const {push} = this.props;
-
+		const {token,display_name,user_name} = this.props.user;
+		const {push,logout} = this.props;
+		const {location} = this.props;
 		const menu = (
 		  <Menu>
-		    <Menu.Item onClick={this.props.logout}>退出登录</Menu.Item>
+		    <Menu.Item onClick={()=>logout()}>退出登录</Menu.Item>
 		  </Menu>
 		);
 
 		return (
-			<Header>
+			[<Header key="header">
 				<TopBarWrapper>
 					<div className="leftSide">
 						<img alt="" className="logo" src={logo} onClick={()=>push('/')} />
 					</div>
 					<div className="rightSide">
 						{
-							token?(
-								<Dropdown overlay={menu} placement="bottomRight">
-									<img alt="" className="avata" src={avata} />
-								</Dropdown>
-							):[]
+							token?<Dropdown overlay={menu} placement="bottomRight">
+									<div className="user-info">
+										<img alt="" className="avata" src={avata} />
+										<div className="username">{display_name || user_name}</div>
+									</div>
+								</Dropdown>:[]
 						}
 					</div>
 				</TopBarWrapper>
-			</Header>);
+			</Header>,
+					location.pathname == "/kanban"?<KanbanBar key="kanban-bar" />:[]
+				]);
 	}
 }
 
 const mapStateToProps = (state) => ({
-	user:state.user
+	user:state.user,
+	location:state.router.location
 })
 
 const mapDispatchToProps = (dispatch) => ({

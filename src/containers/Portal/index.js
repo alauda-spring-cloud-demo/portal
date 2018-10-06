@@ -19,7 +19,7 @@ class Portal extends Component{
 const mapStateToProps = (state)=>({});
 
 const mapDispatchToProps = (dispatch)=>({
-	dashboard:()=>dispatch(push("/dashboard"))
+	dashboard:()=>dispatch(push("/projects"))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(Portal);

@@ -3,15 +3,17 @@ const LOGIN_STORE = "user/LOGIN_STORE";
 const CHECK_AUTHORIZATION = "user/CHECK_AUTHORIZATION"
 const LOGOUT = "user/LOGOUT";
 const LOGIN = "user/LOGIN";
+const CREATE_USER = "user/CREATE_USER";
+const CLEAR_TOKEN = "user/CLEAR_TOKEN";
 
-const loginStore = ({token,userName,avata})=>({
+const loginStore = (userInfo)=>({
 	type:LOGIN_STORE,
-	token,userName,avata
+	userInfo
 })
 
-const loginSuccess = ({token,userName,avata})=>({
+const loginSuccess = (userInfo)=>({
 	type:LOGIN_SUCCESS,
-	token,userName,avata
+	userInfo
 })
 
 const checkAuthorization = ()=>({
@@ -26,6 +28,16 @@ const login = (loginName,password)=>({
 const logout = ()=>({
 	type:LOGOUT
 })
+
+const createUser = ({username,password,displayName,mail})=>({
+	type:CREATE_USER,
+	username,password,displayName,mail
+})
+
+const clearToken = ()=>({
+	type:CLEAR_TOKEN
+})
+
 
 const actions = {
 
@@ -43,6 +55,12 @@ const actions = {
 
 	LOGIN,
 	login,
+
+	createUser,
+	CREATE_USER,
+
+	clearToken,
+	CLEAR_TOKEN
 }
 
 export default actions;

@@ -1,13 +1,30 @@
 import actions from "./actions";
 
-const initState = {};
+const initState = {
+	project:{},users:[],usersSelectable:[],
+	loading:true
+};
 
-const reducer = (state = {},action)=>{
+const reducer = (state = initState,action)=>{
 	switch(action.type){
+		case actions.SET_MANAGER_SUCCESS:
+			{
+				const {project} = action;
+				return Object.assign({},state,{project});
+			}
+		case actions.APPEND_USER_SUCCESS:
+			{
+				const {users,usersSelectable} = action;
+				return Object.assign({},state,{users,usersSelectable});
+			}
+		case actions.LOAD_CARDS:
+			{
+				return Object.assign({},state,{loading:true});
+			}
 		case actions.LOAD_CARDS_SUCCESS:
 			{
-				const {cards} = action;
-				return Object.assign({},state,{cards});
+				const {cards,project,users,usersSelectable} = action;
+				return Object.assign({},state,{cards,project,loading:false,users,usersSelectable});
 			}
 		case actions.APPEND_TODO:
 			{

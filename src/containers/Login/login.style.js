@@ -4,6 +4,9 @@ import Content from "../../components/Content";
 
 export const LoginWrapper = styled(Content)`
 	padding-top:80px;
+	.ant-btn-primary{
+		margin-right:10px;
+	}
 `;
 
 export const RowWrapper = styled(Row)`

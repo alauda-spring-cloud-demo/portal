@@ -6,7 +6,6 @@ import userActions from "./redux/user/actions";
 import { FooterWrapper } from "./App.style";
 import TopBar from "./containers/TopBar";
 import { Layout,Divider } from "antd";
-import api from "./api";
 
 class App extends Component{
   render(){
@@ -26,6 +25,5 @@ class App extends Component{
 }
 
 store.dispatch(userActions.checkAuthorization())
-api.init();
 
 export default App;

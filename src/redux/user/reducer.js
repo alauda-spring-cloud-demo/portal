@@ -6,9 +6,9 @@ const reducer = (state = {},action)=>{
 	switch(action.type){
 		case actions.LOGIN_SUCCESS:
 		case actions.LOGIN_STORE:
-			const {token,userName,avata} = action;
-			return Object.assign({},state,{token,userName,avata});
-		case actions.LOGOUT:
+			const { userInfo } = action;
+			return Object.assign({},state,{...userInfo});
+		case actions.CLEAR_TOKEN:
 			return initState;
 		default:
 			return state;

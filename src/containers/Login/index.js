@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import userActions from "../../redux/user/actions";
 import { Input,Button,Col,Icon,Form } from "antd";
 import { LoginWrapper,RowWrapper,FormItemWrapper } from "./login.style";
+import { push } from "connected-react-router"
+import { Link } from "react-router-dom";
 
 const { login } = userActions;
 
@@ -65,6 +67,7 @@ class Login extends Component{
 					<RowWrapper>
 						<Col {...colProps} >
 							<Button type="primary" onClick={(e)=>this.handleSubmit(e)}>登录</Button>
+							<Button onClick={()=>this.props.push("/registry")}>注册</Button>
 						</Col>
 					</RowWrapper>
 				</Form>
@@ -76,7 +79,8 @@ class Login extends Component{
 const mapStateToProps = (state)=>({})
 
 const mapDispatchToProps = (dispatch)=>({
-	login:(loginName,password)=>dispatch(login(loginName,password))
+	login:(loginName,password)=>dispatch(login(loginName,password)),
+	push:(obj)=>dispatch(push(obj))
 })
 
 export default Form.create()(connect(mapStateToProps,mapDispatchToProps)(Login));

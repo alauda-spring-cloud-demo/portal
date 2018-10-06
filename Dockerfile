@@ -1,5 +1,5 @@
 FROM nginx
-COPY build/* /app/
+COPY build /app/
 WORKDIR /app
 RUN echo 'server{'> /etc/nginx/conf.d/default.conf \
 	&& echo '    listen 8080;'>> /etc/nginx/conf.d/default.conf \

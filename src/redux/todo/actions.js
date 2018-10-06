@@ -17,14 +17,32 @@ const START_UPDATE_CARD = "todo/START_UPDATE_CARD";
 const FINISH_UPDATE_CARD = "todo/FINISH_UPDATE_CARD";
 const START_UPDATE_TODO = "todo/START_UPDATE_TODO";
 const FINISH_UPDATE_TODO = "todo/FINISH_UPDATE_TODO";
+const APPEND_USER = "todo/APPEND_USER";
+const APPEND_USER_SUCCESS = "todo/APPEND_USER_SUCCESS";
+const REMOVE_USER_FROM_PROJECT = "todo/REMOVE_USER_FROM_PROJECT";
+const REMOVE_USER_FROM_PROJECT_SUCCESS = "todo/REMOVE_USER_FROM_PROJECT_SUCCESS";
+const SET_MANAGER = "todo/SET_MANAGER";
+const SET_MANAGER_SUCCESS = "todo/SET_MANAGER_SUCCESS";
+const ASSIGN_TODO = "todo/ASSIGN_TODO";
+const ASSIGN_TODO_SUCCESS = "todo/ASSIGN_TODO_SUCCESS";
 
-const loadCardsSuccess = (cards)=>({
+const loadCardsSuccess = ({cards,project,users,usersSelectable})=>({
 	type:LOAD_CARDS_SUCCESS,
-	cards
+	cards,project,users,usersSelectable
 })
 
 const loadCards = ()=>({
 	type:LOAD_CARDS
+})
+
+const appendUser = ({projectId,userId})=>({
+	type:APPEND_USER,
+	projectId,userId
+})
+
+const appendUserSuccess = ({users,usersSelectable})=>({
+	type:APPEND_USER_SUCCESS,
+	users,usersSelectable
 })
 
 const appendTodo = (cardIndex)=>({
@@ -111,6 +129,34 @@ const finishUpdateTodo = ({cardId,todoId})=>({
 	todoId
 })
 
+const removeUserFromProject = ({projectId,userId})=>({
+	type:REMOVE_USER_FROM_PROJECT,
+	projectId,userId
+})
+
+const removeUserFromProjectSuccess = ()=>({
+	type:REMOVE_USER_FROM_PROJECT_SUCCESS
+})
+
+const setManager = ({userId,userName,projectId}) =>({
+	type:SET_MANAGER,
+	userId,userName,projectId
+})
+
+const setManagerSuccess = ({project}) =>({
+	type:SET_MANAGER_SUCCESS,
+	project
+})
+
+const assignTodo = ({todoId,userId}) => ({
+	type:ASSIGN_TODO,
+	todoId,userId
+})
+
+const assignTodoSuccess = () => ({
+	type:ASSIGN_TODO
+})
+
 const actions = {
 
 	LOAD_CARDS,
@@ -169,6 +215,30 @@ const actions = {
 
 	FINISH_UPDATE_TODO,
 	finishUpdateTodo,
+
+	APPEND_USER,
+	appendUser,
+
+	APPEND_USER_SUCCESS,
+	appendUserSuccess,
+
+	removeUserFromProject,
+	REMOVE_USER_FROM_PROJECT,
+
+	removeUserFromProjectSuccess,
+	REMOVE_USER_FROM_PROJECT_SUCCESS,
+
+	setManager,
+	SET_MANAGER,
+
+	setManagerSuccess,
+	SET_MANAGER_SUCCESS,
+
+	assignTodo,
+	ASSIGN_TODO,
+
+	assignTodoSuccess,
+	ASSIGN_TODO_SUCCESS
 }
 
 export default actions;
