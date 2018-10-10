@@ -7,6 +7,7 @@ import Portal from "./containers/Portal";
 import Registry from "./containers/Registry";
 import { connect } from "react-redux";
 import { ConnectedRouter } from 'connected-react-router';
+import Management from "./containers/management";
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
 	<Route
@@ -37,6 +38,7 @@ class Routers extends Component{
 					<Route exact path="/registry" component={Registry} />
 					<RestrictedRoute exact path="/projects" component={Projects} isLoggedIn={isLoggedIn} />
 					<RestrictedRoute exact path="/kanban" component={Kanban} isLoggedIn={isLoggedIn} />
+					<RestrictedRoute exact path="/management" component={Management} isLoggedIn={isLoggedIn} />
 				</Switch>
 			</ConnectedRouter>
 		);
@@ -45,7 +47,7 @@ class Routers extends Component{
 
 const mapStateToProps = (state)=>{
 	return {
-		isLoggedIn: state.user && state.user.token
+		isLoggedIn: state.user.currentUser && state.user.currentUser.token
 	}
 }
 

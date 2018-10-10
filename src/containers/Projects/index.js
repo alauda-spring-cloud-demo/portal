@@ -137,7 +137,7 @@ class Projects extends Component{
 
 const mapStateToProps = (state)=>({
 	projects:state.project.projects,
-	hasAdvRole:state.user.authorities.find(role=>role =="ROLE_ADMIN" || role == "ROLE_PMO")
+	hasAdvRole:state.user.currentUser.authorities.find(role=>role =="ROLE_ADMIN" || role == "ROLE_PMO")
 });
 
 const mapDispatchToProps = (dispatch)=>({

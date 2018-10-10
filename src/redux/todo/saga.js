@@ -12,29 +12,33 @@ export function* loadCards() {
     const res = yield projectApi.get(projectId);
   	const cards = yield todoApi.getCards({project:projectId});
     const users = yield userApi.getUsersInProject(projectId);
-    const allUsers = yield userApi.getAllUsers();
+    const allUsers = yield userApi.getAllUsers({page:0,size:100});
+    const pmList = yield call(userApi.getPMList);
 
     const userIds = users.map(o=>o.id);
 
-    const usersSelectable = allUsers.filter(o=>userIds.indexOf(o.id)<0);
+    const usersSelectable = allUsers.content.filter(o=>userIds.indexOf(o.id)<0);
 
     yield put(todoActions.loadCardsSuccess({
       cards:cards.data,
       project:res.data,
       users,
-      usersSelectable
+      usersSelectable,
+      pmList
     }));
+
   });
 }
 
 export function* setManager(){
-  yield takeLatest(todoActions.SET_MANAGER, function* ({projectId,userId,userName}){
-    yield projectApi.setManager({projectId,userId,userName});
+  yield takeLatest(todoActions.SET_MANAGER, function* ({projectId,userId,userName,displayName}){
+    yield projectApi.setManager({projectId,userId,userName,displayName});
     const project = yield select(state=>state.todo.project);
     yield put(todoActions.setManagerSuccess({
       project:Object.assign({},project,{
         ownerId:userId,
-        ownerName:userName
+        ownerName:userName,
+        ownerDisplayName:displayName
       })
     }));
   });
@@ -54,9 +58,9 @@ export function* appendUserToProject(){
   yield takeLatest(todoActions.APPEND_USER, function* ({projectId,userId}){
     yield userApi.addUserToProject({projectId,userId})
     const users = yield userApi.getUsersInProject(projectId);
-    const allUsers = yield userApi.getAllUsers();
+    const allUsers = yield userApi.getAllUsers({page:0,size:100});
     const userIds = users.map(o=>o.id);
-    const usersSelectable = allUsers.filter(o=>userIds.indexOf(o.id)<0);
+    const usersSelectable = allUsers.content.filter(o=>userIds.indexOf(o.id)<0);
     yield put(todoActions.appendUserSuccess({users,usersSelectable}));
   });
 }
@@ -65,9 +69,9 @@ export function* removeUserFromProject(){
   yield takeLatest(todoActions.REMOVE_USER_FROM_PROJECT, function* ({projectId,userId}){
     yield userApi.removeUserFromProject({projectId,userId});
     const users = yield userApi.getUsersInProject(projectId);
-    const allUsers = yield userApi.getAllUsers();
+    const allUsers = yield userApi.getAllUsers({page:0,size:100});
     const userIds = users.map(o=>o.id);
-    const usersSelectable = allUsers.filter(o=>userIds.indexOf(o.id)<0);
+    const usersSelectable = allUsers.content.filter(o=>userIds.indexOf(o.id)<0);
     yield put(todoActions.appendUserSuccess({users,usersSelectable}));
   });
 }

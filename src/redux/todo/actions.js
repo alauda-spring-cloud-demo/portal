@@ -26,9 +26,9 @@ const SET_MANAGER_SUCCESS = "todo/SET_MANAGER_SUCCESS";
 const ASSIGN_TODO = "todo/ASSIGN_TODO";
 const ASSIGN_TODO_SUCCESS = "todo/ASSIGN_TODO_SUCCESS";
 
-const loadCardsSuccess = ({cards,project,users,usersSelectable})=>({
+const loadCardsSuccess = ({cards,project,users,usersSelectable,pmList})=>({
 	type:LOAD_CARDS_SUCCESS,
-	cards,project,users,usersSelectable
+	cards,project,users,usersSelectable,pmList
 })
 
 const loadCards = ()=>({
@@ -138,9 +138,9 @@ const removeUserFromProjectSuccess = ()=>({
 	type:REMOVE_USER_FROM_PROJECT_SUCCESS
 })
 
-const setManager = ({userId,userName,projectId}) =>({
+const setManager = ({userId,userName,displayName,projectId}) =>({
 	type:SET_MANAGER,
-	userId,userName,projectId
+	userId,userName,displayName,projectId
 })
 
 const setManagerSuccess = ({project}) =>({

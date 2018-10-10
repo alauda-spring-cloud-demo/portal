@@ -19,13 +19,13 @@ class KanbanBar extends Component{
 		appendUser({userId,projectId:project.id});
 	}
 
-	setManager(userId,userName){
+	setManager(userId,userName,displayName){
 		const { project,setManager } = this.props;
-		setManager({userId,userName,projectId:project.id});
+		setManager({userId,userName,displayName,projectId:project.id});
 	}
 
 	render(){
-		const {project,users,usersSelectable,removeUserFromProject,hasAdvRole,isPM} = this.props;
+		const {project,users,usersSelectable,removeUserFromProject,hasAdvRole,isPM,pmList} = this.props;
 		const selectUserMenu = (<Menu>
 			{
 				usersSelectable.map(u=>
@@ -39,15 +39,15 @@ class KanbanBar extends Component{
 
 		const selectManagerMenu = hasAdvRole?(<Menu>
 			{
-				allUsers.map(u=>
-					<Menu.Item key={u.id} onClick={()=>this.setManager(u.id,u.username)}>
+				pmList.map(u=>
+					<Menu.Item key={u.id} onClick={()=>this.setManager(u.id,u.username,u.displayName)}>
 						{`${u.displayName || u.username}(@${u.username})`}
 					</Menu.Item>)
 			}
 		  </Menu>):<div />;
 
 		return (
-			<KanbanBarWrapper>
+			<KanbanBarWrapper display={project.name}>
 				{project.name}
 				<Divider type="vertical" />
 				{
@@ -56,12 +56,10 @@ class KanbanBar extends Component{
 						project.ownerId?
 						<div 
 							key={project.ownerId} 
-							title={project.ownerName} 
-							className="manager">{project.ownerName[0].toLocaleUpperCase()}
+							title={`${project.ownerDisplayName}@${project.ownerName}`} 
+							className="manager">{(project.ownerDisplayName || project.ownerName)[0].toLocaleUpperCase()}
 						</div>:
-						<div className="add-manager" title="选择项目经理">
-							<Icon type="plus" />
-						</div>
+						<Button className="add-manager" icon="user-add">指定项目经理</Button>
 					}
 					</Dropdown>
 				}
@@ -83,11 +81,9 @@ class KanbanBar extends Component{
 				}
 				{
 					usersSelectable.length > 0 && (hasAdvRole || isPM)?(
-						<div className="add-user" title="添加项目成员">
 							<Dropdown overlay={selectUserMenu}>
-								<Icon type="user-add" />
-							</Dropdown>
-						</div>):[]
+								<Button className="add-user" icon="plus">添加项目成员</Button>
+							</Dropdown>):[]
 				}
 			</KanbanBarWrapper>
 		);
@@ -98,14 +94,15 @@ const mapStateToProps = (state)=>({
 	project:state.todo.project,
 	users:state.todo.users,
 	usersSelectable:state.todo.usersSelectable,
-	hasAdvRole:state.user.authorities.find(role=>role =="ROLE_ADMIN" || role == "ROLE_PMO"),
-	isPM:state.user.id == state.todo.project.ownerId
+	hasAdvRole:state.user.currentUser.authorities.find(role=>role =="ROLE_ADMIN" || role == "ROLE_PMO"),
+	isPM:state.user.currentUser.id == state.todo.project.ownerId,
+	pmList:state.todo.pmList
 })
 
 const mapDispatchToProps = (dispatch)=>({
 	appendUser:({userId,projectId})=>dispatch(todoActions.appendUser({userId,projectId})),
 	removeUserFromProject:({userId,projectId})=>dispatch(todoActions.removeUserFromProject({userId,projectId})),
-	setManager:({userId,userName,projectId})=>dispatch(todoActions.setManager({userId,userName,projectId}))
+	setManager:({userId,userName,displayName,projectId})=>dispatch(todoActions.setManager({userId,userName,displayName,projectId}))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(Form.create()(KanbanBar));

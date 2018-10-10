@@ -20,14 +20,16 @@ const get = async (projectId)=>{
   })
 };
 
-const setManager = async ({projectId,userName,userId}) =>{
+const setManager = async ({projectId,userName,userId,displayName}) =>{
+	console.log({projectId,userName,userId,displayName})
 	return await axios({
 	  	url:`/project-service/project`,
 	  	method:"PUT",
 	  	data:{
 	  		id:projectId,
 	  		ownerId:userId,
-	  		ownerName:userName
+	  		ownerName:userName,
+	  		ownerDisplayName:displayName
 	  	}
 	  }).then(res=>res.data);
 }

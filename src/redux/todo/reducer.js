@@ -1,7 +1,7 @@
 import actions from "./actions";
 
 const initState = {
-	project:{},users:[],usersSelectable:[],
+	project:{},users:[],usersSelectable:[],pmList:[],
 	loading:true
 };
 
@@ -23,8 +23,8 @@ const reducer = (state = initState,action)=>{
 			}
 		case actions.LOAD_CARDS_SUCCESS:
 			{
-				const {cards,project,users,usersSelectable} = action;
-				return Object.assign({},state,{cards,project,loading:false,users,usersSelectable});
+				const {cards,project,users,usersSelectable,pmList} = action;
+				return Object.assign({},state,{cards,project,loading:false,users,usersSelectable,pmList});
 			}
 		case actions.APPEND_TODO:
 			{

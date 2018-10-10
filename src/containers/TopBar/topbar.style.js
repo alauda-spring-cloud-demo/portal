@@ -27,6 +27,19 @@ const TopBarWrapper = styled.div`
 	}
 
 	.rightSide{
+		display:flex;
+		justify-content:center;
+		align-items:center;
+		.anticon{
+			color:#DDDDDD;
+			font-size:24px;
+			margin-right:24px;
+			cursor:pointer;
+			padding:5px;
+			:hover{
+				color:#FFFFFF;
+			}
+		}
 		.user-info{
 			cursor: pointer;
 			color:#FFFFFF;
@@ -47,14 +60,14 @@ const TopBarWrapper = styled.div`
 `;
 
 const KanbanBarWrapper = styled.div`
-	display:flex;
+	display:${props=>props.display?"flex":"none"};
 	justify-content:start;
 	align-items:center;
 	height:50px;
 	padding: 5px 30px 5px 30px;
 	font-size:17px;
 	font-weight:bold;
-	.add-user,.user,.manager,.add-manager{
+	.user,.manager{
 		background-color:#DDDDDD;
 		width:30px;
 		height:30px;
@@ -68,7 +81,6 @@ const KanbanBarWrapper = styled.div`
 		margin-left:15px;
 	}
 	.add-manager{
-		background-color:#DDDDDD;
 		margin-right:10px;
 	}
 	.manager{

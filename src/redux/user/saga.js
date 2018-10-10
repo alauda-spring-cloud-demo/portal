@@ -1,4 +1,4 @@
-import { takeEvery,all,fork,put,call,takeLatest } from 'redux-saga/effects';
+import { takeEvery,all,fork,put,call,takeLatest,select } from 'redux-saga/effects';
 import { push } from 'connected-react-router'
 import userActions from './actions';
 import websocketActions from '../websocket/actions';
@@ -52,11 +52,28 @@ export function* checkAuthorization() {
   });
 }
 
+export function* getAllUsers(){
+  yield takeLatest(userActions.GET_ALL_USERS, function*({page,size}) {
+    const allUsers = yield call(userApi.getAllUsers,{page,size});
+    yield put(userActions.getAllUsersSuccess({allUsers}));
+  });
+}
+
+export function* updateUser(){
+  yield takeLatest(userActions.UPDATE_USER,function*({user}){
+    yield call(userApi.updateUser,user);
+    const {number,size} = yield select(state=>state.user.allUsers);
+    yield put(userActions.getAllUsers({page:number,size}));
+  })
+}
+
 export default function* rootSaga(){
 	yield all([
 		fork(checkAuthorization),
 		fork(logout),
     fork(login),
-    fork(createUser)
+    fork(createUser),
+    fork(getAllUsers),
+    fork(updateUser)
 	]);
 }

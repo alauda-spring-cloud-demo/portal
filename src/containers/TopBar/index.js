@@ -1,5 +1,5 @@
 import React,{ Component } from "react";
-import { Layout,Dropdown,Menu,Button } from "antd";
+import { Layout,Dropdown,Menu,Button,Icon } from "antd";
 import logo from "../../image/logo.png";
 import avata from "../../image/avata.jpg";
 import wrapper from "./topbar.style";
@@ -17,7 +17,7 @@ class TopBar extends Component{
 
 		const {token,display_name,user_name} = this.props.user;
 		const {push,logout} = this.props;
-		const {location} = this.props;
+		const {location,isADMIN} = this.props;
 		const menu = (
 		  <Menu>
 		    <Menu.Item onClick={()=>logout()}>退出登录</Menu.Item>
@@ -31,6 +31,10 @@ class TopBar extends Component{
 						<img alt="" className="logo" src={logo} onClick={()=>push('/')} />
 					</div>
 					<div className="rightSide">
+						{ token?<Icon type="project" onClick={()=>push('/projects')} title="项目面板" />:[] }
+						{
+							token && isADMIN?<Icon type="setting" onClick={()=>push('/management')} title="系统管理" />:[]
+						}
 						{
 							token?<Dropdown overlay={menu} placement="bottomRight">
 									<div className="user-info">
@@ -48,8 +52,9 @@ class TopBar extends Component{
 }
 
 const mapStateToProps = (state) => ({
-	user:state.user,
-	location:state.router.location
+	user:state.user.currentUser,
+	location:state.router.location,
+	isADMIN:state.user.currentUser.authorities && state.user.currentUser.authorities.indexOf("ROLE_ADMIN")>=0
 })
 
 const mapDispatchToProps = (dispatch) => ({

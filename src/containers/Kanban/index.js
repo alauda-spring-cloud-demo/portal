@@ -196,8 +196,8 @@ const mapStateToProps = (state)=>({
 	cards:state.todo.cards,
 	loading:state.todo.loading,
 	users:state.todo.users,
-	hasAdvRole:state.user.authorities.find(role=>role =="ROLE_ADMIN" || role == "ROLE_PMO"),
-	isPM:state.user.id == state.todo.project.ownerId
+	hasAdvRole:state.user.currentUser.authorities.find(role=>role =="ROLE_ADMIN" || role == "ROLE_PMO"),
+	isPM:state.user.currentUser.id == state.todo.project.ownerId
 })
 
 const mapDispatchToProps = (dispatch)=>({
