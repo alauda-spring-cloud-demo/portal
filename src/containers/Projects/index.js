@@ -52,7 +52,7 @@ class Projects extends Component{
 		let { projects,hasAdvRole } = this.props;
 		let { push } = this.props;
 		let { getFieldDecorator } = this.props.form;
-
+console.log(projects)
 		let rows = projects.reduce((prev,cur,idx)=>{
 			if(idx % 4 == 0){
 				prev.push([])
